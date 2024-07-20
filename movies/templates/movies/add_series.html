@@ -1,0 +1,15 @@
+{% extends 'movies/base.html' %}
+
+{% block title %}Add Series{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="display-4 text-center">Add a New Series</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }} 
+        <button type="submit" class="btn btn-primary">Add Series</button>
+    </form>
+    <a href="{% url 'profile' %}" class="btn btn-secondary mt-3">Back to Profile</a>
+</div>
+{% endblock %}

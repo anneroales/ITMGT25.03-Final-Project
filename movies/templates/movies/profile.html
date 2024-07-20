@@ -1,0 +1,162 @@
+{% extends 'movies/base.html' %}
+
+{% block title %}{{ user.username }}'s Profile{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 text-center mb-4">
+        <h1>{{ user.username }}'s Profile</h1>
+        <a href="{% url 'add_movie' %}" class="btn btn-success">Add Movie</a>
+        <a href="{% url 'add_series' %}" class="btn btn-success">Add Series</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-header">Movies</div>
+            <div class="card-body">
+                <h5>Watched Movies</h5>
+                <ul class="list-group list-group-flush">
+                    {% for movie in watched_movies %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>{{ movie.title }} ({{ movie.year }})</span>
+                            <span>
+                                {% if movie.platforms.all %}
+                                    Available on: 
+                                    {% for platform in movie.platforms.all %}
+                                        <strong>{{ platform.name }}</strong>{% if not forloop.last %}, {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    No streaming platform assigned.
+                                {% endif %}
+                            </span>
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">No watched movies.</li>
+                    {% endfor %}
+                </ul>
+
+                <h5>Unwatched Movies</h5>
+                <ul class="list-group list-group-flush">
+                    {% for movie in unwatched_movies %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>{{ movie.title }} ({{ movie.year }})</span>
+                            <span>
+                                {% if movie.platforms.all %}
+                                    Available on: 
+                                    {% for platform in movie.platforms.all %}
+                                        <strong>{{ platform.name }}</strong>{% if not forloop.last %}, {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    No streaming platform assigned.
+                                {% endif %}
+                            </span>
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">No unwatched movies.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-header">Series</div>
+            <div class="card-body">
+                <h5>Watched Series</h5>
+                <ul class="list-group list-group-flush">
+                    {% for series in watched_series %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>{{ series.title }} ({{ series.year }})</span>
+                            <span>
+                                {% if series.platforms.all %}
+                                    Available on: 
+                                    {% for platform in series.platforms.all %}
+                                        <strong>{{ platform.name }}</strong>{% if not forloop.last %}, {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    No streaming platform assigned.
+                                {% endif %}
+                            </span>
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">No watched series.</li>
+                    {% endfor %}
+                </ul>
+
+                <h5>Unwatched Series</h5>
+                <ul class="list-group list-group-flush">
+                    {% for series in unwatched_series %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>{{ series.title }} ({{ series.year }})</span>
+                            <span>
+                                {% if series.platforms.all %}
+                                    Available on: 
+                                    {% for platform in series.platforms.all %}
+                                        <strong>{{ platform.name }}</strong>{% if not forloop.last %}, {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    No streaming platform assigned.
+                                {% endif %}
+                            </span>
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">No unwatched series.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-header">Watchlist</div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    {% for item in watchlist_items %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {% if item.movie %}
+                                <span>{{ item.movie.title }} ({{ item.movie.year }})</span>
+                                <span>
+                                    {% if item.movie.platforms.all %}
+                                        Available on: 
+                                        {% for platform in item.movie.platforms.all %}
+                                            <strong>{{ platform.name }}</strong>{% if not forloop.last %}, {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        No streaming platform assigned.
+                                    {% endif %}
+                                </span>
+                            {% elif item.series %}
+                                <span>{{ item.series.title }} ({{ item.series.year }})</span>
+                                <span>
+                                    {% if item.series.platforms.all %}
+                                        Available on: 
+                                        {% for platform in item.series.platforms.all %}
+                                            <strong>{{ platform.name }}</strong>{% if not forloop.last %}, {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        No streaming platform assigned.
+                                    {% endif %}
+                                </span>
+                            {% endif %}
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">No items in your watchlist.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 text-center">
+        <a href="{% url 'movies' %}" class="btn btn-secondary mr-2">View Movies</a>
+        <a href="{% url 'series' %}" class="btn btn-secondary mr-2">View Series</a>
+        <a href="{% url 'account_logout' %}" class="btn btn-danger">Logout</a>
+    </div>
+</div>
+{% endblock %}

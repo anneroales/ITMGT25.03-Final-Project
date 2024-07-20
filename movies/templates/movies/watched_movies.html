@@ -1,0 +1,33 @@
+{% extends 'movies/base.html' %}
+
+{% block title %}Watched Movies{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="display-4 text-center">Watched Movies</h1>
+    
+    <ul class="list-group">
+        {% for movie in movies %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span>{{ movie.title }} ({{ movie.year }})</span>
+                <span>
+                    Available on:
+                    {% for platform in movie.platforms.all %}
+                        <strong>{{ platform.name }}</strong>{% if not forloop.last %}, {% endif %}
+                    {% empty %}
+                        No streaming platform assigned.
+                    {% endfor %}
+                </span>
+                <a href="{% url 'mark_movies_unwatched' movie.id %}" class="btn btn-warning btn-sm">Mark as Unwatched</a>
+            </li>
+        {% empty %}
+            <li class="list-group-item text-center">No watched movies available.</li>
+        {% endfor %}
+    </ul>
+
+    <div class="text-center mt-4">
+        <a href="{% url 'unwatched_movies' %}" class="btn btn-secondary">View Unwatched Movies</a>
+        <a href="{% url 'profile' %}" class="btn btn-info">Go to Your Profile</a>
+    </div>
+</div>
+{% endblock %}
